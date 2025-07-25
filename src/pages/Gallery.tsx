@@ -7,7 +7,7 @@ interface GalleryImage {
   src: string;
   alt: string;
   title: string;
-  category: 'bienen' | 'honig' | 'natur' | 'digital';
+  category: 'bienen' | 'honig' | 'natur' | 'digital' | 'video';
 }
 
 const Gallery: React.FC = () => {
@@ -21,80 +21,87 @@ const Gallery: React.FC = () => {
       src: '/images/slider vidoe.mp4',
       alt: 'Digitale Bienenstocküberwachung - Video',
       title: 'Smart Beehive Monitoring',
-      category: 'digital'
+      category: 'video'
     },
     {
       id: 2,
+      src: '/images/velberter honig.jpg',
+      alt: 'Velberter Honig Premium Logo',
+      title: 'Velberter Honig Markenzeichen',
+      category: 'honig'
+    },
+    {
+      id: 3,
       src: '/images/slider.png',
       alt: 'Premium Slider Design',
       title: 'Moderne Honig Präsentation',
       category: 'honig'
     },
     {
-      id: 3,
+      id: 4,
       src: '/images/petek.jpg',
       alt: 'Premium Honigwaben',
       title: 'Goldene Honigwaben',
       category: 'honig'
     },
     {
-      id: 4,
+      id: 5,
       src: '/images/manzaera.jpg',
       alt: 'Velberter Naturlandschaft',
       title: 'Unberührte Natur um Velbert',
       category: 'natur'
     },
     {
-      id: 5,
+      id: 6,
       src: '/images/slider2.jpg',
       alt: 'Moderne Imkerei Technologie',
       title: 'Digitaler Imker bei der Arbeit',
       category: 'digital'
     },
     {
-      id: 6,
+      id: 7,
       src: '/images/insan ve petek.jpg',
       alt: 'Artisan Honig Abfüllung',
       title: 'Handwerkliche Honig-Abfüllung',
       category: 'honig'
     },
     {
-      id: 7,
+      id: 8,
       src: '/images/petekler orman.png',
       alt: 'Blütenmeer für Bienen',
       title: 'Wildblumenwiese in voller Blüte',
       category: 'natur'
     },
     {
-      id: 8,
+      id: 9,
       src: '/images/slider 3.jpg',
       alt: 'Biene mit Sensortechnologie',
       title: 'IoT-Sensoren im Bienenstock',
       category: 'digital'
     },
     {
-      id: 9,
+      id: 10,
       src: '/images/slider.jpg',
       alt: 'Premium Honig Kollektion',
       title: 'Exklusive Honig-Sammlung',
       category: 'honig'
     },
     {
-      id: 10,
+      id: 11,
       src: '/images/manzaera.jpg',
       alt: 'Mystischer Morgenwald',
       title: 'Morgendämmerung im Bienenwald',
       category: 'natur'
     },
     {
-      id: 11,
+      id: 12,
       src: '/images/slider1.jpg',
       alt: 'Digital Dashboard für Imkerei',
       title: 'Smart Beekeeping Dashboard',
       category: 'digital'
     },
     {
-      id: 12,
+      id: 13,
       src: '/images/petekler orman.png',
       alt: 'Nebel über Bienenwiesen',
       title: 'Mystische Landschaft bei Sonnenaufgang',
@@ -232,10 +239,10 @@ const Gallery: React.FC = () => {
                 </div>
                 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
                 {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute top-0 left-0 right-0 p-6 text-white transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-lg font-bold mb-2">{image.title}</h3>
                   <div className="flex items-center text-sm text-gray-200">
                     <span className="capitalize">{image.category}</span>
@@ -317,7 +324,7 @@ const Gallery: React.FC = () => {
               )}
               
               {/* Image Info */}
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/70 to-transparent rounded-b-lg">
+              <div className="absolute top-0 left-0 right-0 p-6 bg-gradient-to-b from-black via-black/70 to-transparent rounded-t-lg">
                 <h3 className="text-2xl font-bold text-white mb-2">{selectedImage.title}</h3>
                 <p className="text-gray-300 capitalize">
                   Kategorie: {selectedImage.category}

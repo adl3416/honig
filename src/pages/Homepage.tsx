@@ -23,7 +23,7 @@ const Homepage: React.FC = () => {
       type: "video",
       source: "/images/slider vidoe.mp4",
       poster: "/images/slider1.jpg",
-      title: "Digitaler Honig",
+      title: "Natürlicher Honig",
       subtitle: "aus der Natur",
       description: "Traditionelle Imkerei trifft moderne Technologie. Entdecken Sie unseren hochwertigen Honig aus Velbert."
     },
@@ -53,7 +53,7 @@ const Homepage: React.FC = () => {
   // Auto-advance slider with different timing for video vs images
   useEffect(() => {
     const currentSlideData = slides[currentSlide];
-    const duration = currentSlideData.type === "video" ? 8000 : 5000; // 8s for video, 5s for images
+    const duration = currentSlideData.type === "video" ? 6000 : 4000; // 6s for video, 4s for images
     
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -105,15 +105,18 @@ const Homepage: React.FC = () => {
       {/* Hero Section with Image Slider */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Image/Video Slider Background */}
-        <div className="absolute inset-0 z-0">
-          <AnimatePresence mode="wait">
+        <div className="absolute inset-0 z-0 bg-gray-900">
+          <AnimatePresence>
             <motion.div
               key={currentSlide}
               className="absolute inset-0"
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.8, ease: "easeInOut" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ 
+                duration: 0.8, 
+                ease: "easeInOut"
+              }}
             >
               {slides[currentSlide].type === "video" ? (
                 <video
@@ -134,11 +137,17 @@ const Homepage: React.FC = () => {
                   />
                 </video>
               ) : (
-                <img
-                  src={slides[currentSlide].source}
-                  alt={`Slide ${currentSlide + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                <div className="relative w-full h-full bg-gray-800">
+                  <img
+                    src={slides[currentSlide].source}
+                    alt={`Slide ${currentSlide + 1}`}
+                    className="w-full h-full object-cover"
+                    style={{ 
+                      objectPosition: 'center',
+                      filter: 'brightness(0.85) contrast(1.1) saturate(1.1)'
+                    }}
+                  />
+                </div>
               )}
               {/* Overlay */}
               <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -165,7 +174,7 @@ const Homepage: React.FC = () => {
         {slides[currentSlide].type === "video" && (
           <button
             onClick={toggleVideo}
-            className="absolute bottom-32 right-8 z-20 p-3 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
+            className="absolute bottom-40 right-8 z-20 p-3 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
           >
             {isPlaying ? (
               <div className="w-6 h-6 flex items-center justify-center">
@@ -179,7 +188,7 @@ const Homepage: React.FC = () => {
         )}
 
         {/* Slide Indicators */}
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
+        <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
           {slides.map((_, index) => (
             <button
               key={index}
@@ -196,32 +205,33 @@ const Homepage: React.FC = () => {
         {/* Hero Content */}
         <motion.div 
           className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="mb-20"
             >
               <motion.h1 
-                className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
+                className="text-5xl md:text-7xl font-bold mb-8 leading-tight min-h-[200px] flex flex-col justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.3 }}
               >
-                {slides[currentSlide].title}
-                <span className="block text-honey-400">{slides[currentSlide].subtitle}</span>
+                <span>{slides[currentSlide].title}</span>
+                <span className="block text-honey-400 mt-2">{slides[currentSlide].subtitle}</span>
               </motion.h1>
               
               <motion.p 
-                className="text-xl md:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
+                className="text-xl md:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto min-h-[100px] flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.6 }}
               >
                 {slides[currentSlide].description}
@@ -231,8 +241,8 @@ const Homepage: React.FC = () => {
 
           <motion.div 
             className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.9 }}
           >
             <Link
@@ -254,7 +264,7 @@ const Homepage: React.FC = () => {
 
         {/* Scroll Indicator */}
         <motion.div 
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
+          className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-white"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.2, repeat: Infinity, repeatType: "reverse" }}
@@ -443,8 +453,8 @@ const Homepage: React.FC = () => {
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-0 left-0 right-0 p-6 text-white transform -translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-xl font-bold mb-2">{product.name}</h3>
                   <p className="text-sm text-gray-200">{product.description}</p>
                 </div>

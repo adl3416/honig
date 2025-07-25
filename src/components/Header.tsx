@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import VelberterLogo from './VelberterLogo';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,10 +23,8 @@ const Header: React.FC = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
-              <div className="w-10 h-10 bg-honey-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">VH</span>
-              </div>
-              <span className="ml-3 text-xl font-bold text-gray-900">
+              <VelberterLogo size="lg" className="mr-3" />
+              <span className="text-2xl font-bold text-gray-900">
                 Velberter Honig
               </span>
             </Link>
@@ -37,10 +36,10 @@ const Header: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                className={`px-4 py-2 text-base font-semibold transition-colors duration-200 ${
                   isActive(item.href)
                     ? 'text-honey-600 border-b-2 border-honey-500'
-                    : 'text-gray-700 hover:text-honey-600'
+                    : 'text-gray-800 hover:text-honey-600'
                 }`}
               >
                 {item.name}

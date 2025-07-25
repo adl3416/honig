@@ -29,8 +29,8 @@ const Homepage: React.FC = () => {
     },
     {
       type: "image",
-      source: "/images/slider.png",
-      title: "Premium Qualität",
+      source: "/images/velberter honig.jpg",
+      title: "Velberter Honig",
       subtitle: "seit Generationen",
       description: "Erleben Sie die Perfektion unserer handwerklichen Honigproduktion in modernster Qualität."
     },

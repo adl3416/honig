@@ -15,35 +15,52 @@ const Homepage: React.FC = () => {
 
   // Slider state
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
   
   const slides = [
     {
-      image: "/images/slider1.jpg",
+      type: "video",
+      source: "/images/slider vidoe.mp4",
+      poster: "/images/slider1.jpg",
       title: "Digitaler Honig",
       subtitle: "aus der Natur",
       description: "Traditionelle Imkerei trifft moderne Technologie. Entdecken Sie unseren hochwertigen Honig aus Velbert."
     },
     {
-      image: "/images/slider2.jpg",
+      type: "image",
+      source: "/images/slider.png",
+      title: "Premium Qualität",
+      subtitle: "seit Generationen",
+      description: "Erleben Sie die Perfektion unserer handwerklichen Honigproduktion in modernster Qualität."
+    },
+    {
+      type: "image", 
+      source: "/images/slider2.jpg",
       title: "Natürliche Perfektion",
       subtitle: "in Waben-Form",
       description: "Erleben Sie die faszinierende Welt der Bienenwaben und deren perfekte Geometrie in der Natur."
     },
     {
-      image: "/images/slider 3.jpg",
+      type: "image",
+      source: "/images/slider 3.jpg",
       title: "Unsere Bienenvölker",
       subtitle: "im Velberter Wald",
       description: "Mitten in der Natur stehen unsere Bienenstöcke und produzieren den reinsten Honig der Region."
     }
   ];
 
-  // Auto-advance slider
+  // Auto-advance slider with different timing for video vs images
   useEffect(() => {
+    const currentSlideData = slides[currentSlide];
+    const duration = currentSlideData.type === "video" ? 8000 : 5000; // 8s for video, 5s for images
+    
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, duration);
+    
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [slides.length, currentSlide]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -51,6 +68,18 @@ const Homepage: React.FC = () => {
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  const toggleVideo = () => {
+    if (videoRef.current && slides[currentSlide].type === "video") {
+      if (isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef.current.play();
+        setIsPlaying(true);
+      }
+    }
   };
 
   const containerVariants = {
@@ -75,7 +104,7 @@ const Homepage: React.FC = () => {
     <div className="overflow-hidden">
       {/* Hero Section with Image Slider */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Image Slider Background */}
+        {/* Image/Video Slider Background */}
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.div
@@ -86,11 +115,31 @@ const Homepage: React.FC = () => {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.8, ease: "easeInOut" }}
             >
-              <img
-                src={slides[currentSlide].image}
-                alt={`Slide ${currentSlide + 1}`}
-                className="w-full h-full object-cover"
-              />
+              {slides[currentSlide].type === "video" ? (
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                  poster={slides[currentSlide].poster}
+                >
+                  <source src={slides[currentSlide].source} type="video/mp4" />
+                  {/* Fallback image if video fails */}
+                  <img
+                    src={slides[currentSlide].poster || slides[currentSlide].source}
+                    alt={`Slide ${currentSlide + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </video>
+              ) : (
+                <img
+                  src={slides[currentSlide].source}
+                  alt={`Slide ${currentSlide + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              )}
               {/* Overlay */}
               <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             </motion.div>
@@ -100,17 +149,34 @@ const Homepage: React.FC = () => {
         {/* Slider Controls */}
         <button
           onClick={prevSlide}
-          className="absolute left-8 z-20 p-3 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
+          className="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 p-3 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
         >
           <ChevronLeft className="h-6 w-6" />
         </button>
         
         <button
           onClick={nextSlide}
-          className="absolute right-8 z-20 p-3 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
+          className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 p-3 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
         >
           <ChevronRight className="h-6 w-6" />
         </button>
+
+        {/* Video Control Button - only show when current slide is video */}
+        {slides[currentSlide].type === "video" && (
+          <button
+            onClick={toggleVideo}
+            className="absolute bottom-32 right-8 z-20 p-3 bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
+          >
+            {isPlaying ? (
+              <div className="w-6 h-6 flex items-center justify-center">
+                <div className="w-2 h-4 bg-white mr-1"></div>
+                <div className="w-2 h-4 bg-white"></div>
+              </div>
+            ) : (
+              <Play className="h-6 w-6" />
+            )}
+          </button>
+        )}
 
         {/* Slide Indicators */}
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">

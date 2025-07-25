@@ -18,80 +18,80 @@ const Gallery: React.FC = () => {
   const images: GalleryImage[] = [
     {
       id: 1,
-      src: '/images/slider1.jpg',
-      alt: 'Digitale Bienenstocküberwachung',
+      src: '/images/slider vidoe.mp4',
+      alt: 'Digitale Bienenstocküberwachung - Video',
       title: 'Smart Beehive Monitoring',
       category: 'digital'
     },
     {
       id: 2,
+      src: '/images/slider.png',
+      alt: 'Premium Slider Design',
+      title: 'Moderne Honig Präsentation',
+      category: 'honig'
+    },
+    {
+      id: 3,
       src: '/images/petek.jpg',
       alt: 'Premium Honigwaben',
       title: 'Goldene Honigwaben',
       category: 'honig'
     },
     {
-      id: 3,
+      id: 4,
       src: '/images/manzaera.jpg',
       alt: 'Velberter Naturlandschaft',
       title: 'Unberührte Natur um Velbert',
       category: 'natur'
     },
     {
-      id: 4,
+      id: 5,
       src: '/images/slider2.jpg',
       alt: 'Moderne Imkerei Technologie',
       title: 'Digitaler Imker bei der Arbeit',
       category: 'digital'
     },
     {
-      id: 5,
+      id: 6,
       src: '/images/insan ve petek.jpg',
       alt: 'Artisan Honig Abfüllung',
       title: 'Handwerkliche Honig-Abfüllung',
       category: 'honig'
     },
     {
-      id: 6,
+      id: 7,
       src: '/images/petekler orman.png',
       alt: 'Blütenmeer für Bienen',
       title: 'Wildblumenwiese in voller Blüte',
       category: 'natur'
     },
     {
-      id: 7,
+      id: 8,
       src: '/images/slider 3.jpg',
       alt: 'Biene mit Sensortechnologie',
       title: 'IoT-Sensoren im Bienenstock',
       category: 'digital'
     },
     {
-      id: 8,
+      id: 9,
       src: '/images/slider.jpg',
       alt: 'Premium Honig Kollektion',
       title: 'Exklusive Honig-Sammlung',
       category: 'honig'
     },
     {
-      id: 9,
+      id: 10,
       src: '/images/manzaera.jpg',
       alt: 'Mystischer Morgenwald',
       title: 'Morgendämmerung im Bienenwald',
       category: 'natur'
     },
     {
-      id: 10,
+      id: 11,
       src: '/images/slider1.jpg',
       alt: 'Digital Dashboard für Imkerei',
       title: 'Smart Beekeeping Dashboard',
       category: 'digital'
-    },
-    {
-      id: 11,
-      src: '/images/petek.jpg',
-      alt: 'Luxus Honig Präsentation',
-      title: 'Honig-Verkostung Experience',
-      category: 'honig'
     },
     {
       id: 12,
@@ -104,6 +104,7 @@ const Gallery: React.FC = () => {
 
   const filters = [
     { key: 'alle', label: 'Alle Bilder', icon: '🍯' },
+    { key: 'video', label: 'Videos', icon: '🎥' },
     { key: 'digital', label: 'Digital & Tech', icon: '💻' },
     { key: 'bienen', label: 'Bienen & Imkerei', icon: '🐝' },
     { key: 'honig', label: 'Honigprodukte', icon: '🍯' },
@@ -210,12 +211,24 @@ const Gallery: React.FC = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="aspect-square overflow-hidden">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-125"
-                    loading="lazy"
-                  />
+                  {image.src.endsWith('.mp4') ? (
+                    <video
+                      src={image.src}
+                      poster="/images/video-poster.jpg"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-125"
+                      controls
+                      muted
+                      onMouseEnter={(e) => (e.target as HTMLVideoElement).play()}
+                      onMouseLeave={(e) => (e.target as HTMLVideoElement).pause()}
+                    />
+                  ) : (
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-125"
+                      loading="lazy"
+                    />
+                  )}
                 </div>
                 
                 {/* Overlay */}
@@ -285,12 +298,23 @@ const Gallery: React.FC = () => {
                 <X className="h-8 w-8" />
               </button>
               
-              {/* Image */}
-              <img
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                className="max-w-full max-h-full object-contain rounded-lg"
-              />
+              {/* Media */}
+              {selectedImage.src.endsWith('.mp4') ? (
+                <video
+                  src={selectedImage.src}
+                  poster="/images/video-poster.jpg"
+                  className="max-w-full max-h-full object-contain rounded-lg"
+                  controls
+                  autoPlay
+                  muted
+                />
+              ) : (
+                <img
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                  className="max-w-full max-h-full object-contain rounded-lg"
+                />
+              )}
               
               {/* Image Info */}
               <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/70 to-transparent rounded-b-lg">
